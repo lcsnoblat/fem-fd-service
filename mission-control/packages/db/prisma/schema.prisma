@@ -756,7 +756,7 @@ model Reminder {
   userId       String
   title        String
   description  String?
-  dueAt        DateTime
+  dueAt        DateTime?
   priority     Priority       @default(MEDIUM)
   status       ReminderStatus @default(PENDING)
   tags         String[]

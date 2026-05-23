@@ -63,7 +63,7 @@ export const remindersRouter = router({
       z.object({
         title: z.string().min(1).max(200),
         description: z.string().max(2000).optional(),
-        dueAt: z.string().datetime(),
+        dueAt: z.string().datetime().optional(),
         priority: prioritySchema.default('MEDIUM'),
         tags: z.array(z.string().max(50)).max(10).default([]),
         recurrence: z
@@ -80,19 +80,20 @@ export const remindersRouter = router({
     .mutation(async ({ ctx, input }) => {
       const { recurrence, ...reminderData } = input
 
+      const dueAtDate = input.dueAt ? new Date(input.dueAt) : null
       return ctx.db.reminder.create({
         data: {
           ...reminderData,
-          dueAt: new Date(input.dueAt),
+          dueAt: dueAtDate,
           userId: ctx.userId,
-          ...(recurrence && {
+          ...(recurrence && dueAtDate && {
             recurrence: {
               create: {
                 frequency: recurrence.frequency,
                 interval: recurrence.interval,
                 until: recurrence.until ? new Date(recurrence.until) : undefined,
                 count: recurrence.endType === 'count' ? recurrence.count : undefined,
-                nextOccurrence: new Date(input.dueAt),
+                nextOccurrence: dueAtDate,
               },
             },
           }),
@@ -141,7 +142,7 @@ export const remindersRouter = router({
       })
 
       // Create next occurrence for recurring reminders
-      if (existing.recurrence) {
+      if (existing.recurrence && existing.dueAt) {
         const nextDate = getNextOccurrence(existing.dueAt, existing.recurrence)
         if (nextDate) {
           await ctx.db.reminder.create({
