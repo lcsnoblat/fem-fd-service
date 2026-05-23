@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design tokens ───────────────────────────────────────────────────────── */
+:root {
+  --color-bg: #f8f9fc;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1f3f9;
+  --color-border: #e2e6f0;
+  --color-border-2: #cbd2e0;
+
+  --color-text-primary: #0f1523;
+  --color-text-secondary: #4a5578;
+  --color-text-muted: #8e98b0;
+  --color-text-disabled: #bcc4d6;
+
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+
+  --color-success: #10b981;
+  --color-success-bg: #ecfdf5;
+  --color-warning: #f59e0b;
+  --color-warning-bg: #fffbeb;
+  --color-error: #ef4444;
+  --color-error-bg: #fef2f2;
+  --color-info: #3b82f6;
+  --color-info-bg: #eff6ff;
+
+  /* Geometric effect colors */
+  --color-geo-line: rgba(99, 102, 241, 0.07);
+  --color-geo-dot: rgba(99, 102, 241, 0.12);
+  --color-geo-glow: rgba(99, 102, 241, 0.15);
+
+  /* Sidebar width */
+  --sidebar-width: 240px;
+  --sidebar-width-collapsed: 64px;
+  --topbar-height: 56px;
+}
+
+/* ─── Base ────────────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html {
+    @apply antialiased;
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  /* Focus ring — consistent across all interactive elements */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-2);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+}
+
+/* ─── Typography utilities ────────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Geometric background pattern */
+  .geo-grid {
+    background-image:
+      linear-gradient(var(--color-geo-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-geo-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

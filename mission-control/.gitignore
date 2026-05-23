@@ -1,0 +1,28 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build
+.next
+dist
+.turbo
+out
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# DB
+*.db
+*.sqlite
+
+# Misc
+.DS_Store
+*.log
+npm-debug.log*
+.vercel
+coverage
+playwright-report
+test-results
