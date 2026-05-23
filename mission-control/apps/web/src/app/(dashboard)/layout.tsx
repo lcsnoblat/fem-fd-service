@@ -1,10 +1,9 @@
 import { getServerSession } from 'next-auth'
-import { SessionProvider } from 'next-auth/react'
 import { redirect } from 'next/navigation'
 
-import { Shell } from '@/components/layout/shell'
 import { authOptions } from '@/lib/auth/config'
-import { TRPCProvider } from '@/lib/trpc/client'
+
+import { DashboardProviders } from './providers'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -18,10 +17,8 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
   }
 
   return (
-    <SessionProvider session={session}>
-      <TRPCProvider>
-        <Shell>{children}</Shell>
-      </TRPCProvider>
-    </SessionProvider>
+    <DashboardProviders session={session}>
+      {children}
+    </DashboardProviders>
   )
 }
